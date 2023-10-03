@@ -1,0 +1,74 @@
+import requests
+import json
+
+# API URL
+api_url = "https://samples.openweathermap.org/data/2.5/forecast/hourly?q=London,us&appid=b6907d289e10d714a6e88b30761fae22"
+
+# Function to get temperature
+def get_temperature(dt_txt):
+    response = requests.get(api_url)
+    if response.status_code == 200:
+        data = response.json()
+        for item in data['list']:
+            if item['dt_txt'] == dt_txt:
+                return item['main']['temp']
+        return None
+    else:
+        print("Error fetching data from the API")
+        return None
+
+# Function to get wind speed
+def get_wind_speed(dt_txt):
+    response = requests.get(api_url)
+    if response.status_code == 200:
+        data = response.json()
+        for item in data['list']:
+            if item['dt_txt'] == dt_txt:
+                return item['wind']['speed']
+        return None
+    else:
+        print("Error fetching data from the API")
+        return None
+
+# Function to get pressure
+def get_pressure(dt_txt):
+    response = requests.get(api_url)
+    if response.status_code == 200:
+        data = response.json()
+        for item in data['list']:
+            if item['dt_txt'] == dt_txt:
+                return item['main']['pressure']
+        return None
+    else:
+        print("Error fetching data from the API")
+        return None
+
+# Main program loop
+while True:
+    print("\nMenu:")
+    print("1. Get Temperature")
+    print("2. Get Wind Speed")
+    print("3. Get Pressure")
+    print("0. Exit")
+    
+    choice = input("Enter your choice: ")
+    
+    if choice == '1':
+        dt_txt = input("Enter the date and time (yyyy-mm-dd hh:mm:ss): ")
+        temperature = get_temperature(dt_txt)
+        if temperature is not None:
+            print(f"Temperature at {dt_txt}: {temperature}°C")
+    elif choice == '2':
+        dt_txt = input("Enter the date and time (yyyy-mm-dd hh:mm:ss): ")
+        wind_speed = get_wind_speed(dt_txt)
+        if wind_speed is not None:
+            print(f"Wind Speed at {dt_txt}: {wind_speed} m/s")
+    elif choice == '3':
+        dt_txt = input("Enter the date and time (yyyy-mm-dd hh:mm:ss): ")
+        pressure = get_pressure(dt_txt)
+        if pressure is not None:
+            print(f"Pressure at {dt_txt}: {pressure} hPa")
+    elif choice == '0':
+        break
+    else:
+        print("Invalid choice. Please try again.")
