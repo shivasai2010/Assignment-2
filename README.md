@@ -1,1 +1,2 @@
-# Assignment-2
+ # Assignment-2
+ Writing python code for weather API
